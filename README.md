@@ -10,4 +10,5 @@ Uses the [DarkSky API](https://darksky.net/dev) for weather data and [Skycons](h
     - daily/hourly forecast
   - change degree number formatting to no decimals for F and one for C
   - remove dependence on CORS-Anywhere proxy
-  - clean javascript code, separate out specific functions from fetch(api) 
+  - clean javascript code, separate out specific functions from fetch(api)
+    - review the [Mozilla developer site for geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) for JS function ideas.
