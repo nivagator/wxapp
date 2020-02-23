@@ -8,6 +8,8 @@ window.addEventListener('load', ()=> {
   let locTimezone = document.querySelector('.loc-timezone');
   let degreeSection = document.querySelector('.temp-degree');
   const degreeSpan = document.querySelector('.degree-section span');
+  const feelsDegrees = document.querySelector('.feels-degrees');
+  const feelSpan = document.querySelector('.feelslike span')
 
   //if location exists in the browser
   if(navigator.geolocation){
@@ -45,11 +47,12 @@ window.addEventListener('load', ()=> {
           //Set DOM elements from the api
           tempDegree.textContent = Math.round(temperature);
           tempDescription.textContent = summary;
+          feelsDegrees.textContent = Math.round(apparentTemperature)
           //locTimezone.textContent = data.timezone
 
           // formula for celcius 
-          let celcius = (temperature - 32) * (5 / 9)
-
+          let celcius = (temperature - 32) * (5 / 9);
+          let feelsCelcius = (apparentTemperature -32) * (5 / 9);
           //set icon
           setIcons(icon, document.querySelector('.icon'));
 
@@ -57,10 +60,14 @@ window.addEventListener('load', ()=> {
           degreeSection.addEventListener('click', () =>{
             if(degreeSpan.textContent === "F") {
               degreeSpan.textContent = "C";
+              feelSpan.textContent = "C";
               degreeSection.textContent = celcius.toFixed(1); //C to one decimal
+              feelsDegrees.textContent = feelsCelcius.toFixed(1);
             }else{
               degreeSpan.textContent = "F";
+              feelSpan.textContent = "F";
               degreeSection.textContent = Math.round(temperature);
+              feelsDegrees.textContent = Math.round(apparentTemperature);
             }
           })
         });

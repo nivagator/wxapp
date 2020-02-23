@@ -18,7 +18,7 @@ body {
 .loc, 
 .temp {
   height: 30vh;
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -28,7 +28,8 @@ body {
   flex-direction: column;
 }
 
-.degree-section{
+.degree-section,
+.feelslike {
   display: flex;
   align-items: center;
   cursor: pointer; 
@@ -41,4 +42,12 @@ body {
 
 .degree-section h2 {
   font-size: 40px;
+}
+
+.feelslike span {
+  margin: 5px;
+}
+
+.feels-degrees {
+  margin-left: 5px;
 }
