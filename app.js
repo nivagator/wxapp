@@ -1,5 +1,6 @@
 //get location long and lat
 window.addEventListener('load', ()=> {
+  // const vs let?
   let long;
   let lat;
   let tempDescription = document.querySelector('.temp-description');
@@ -7,6 +8,7 @@ window.addEventListener('load', ()=> {
   let locTimezone = document.querySelector('.loc-timezone');
   let degreeSection = document.querySelector('.temp-degree');
   const degreeSpan = document.querySelector('.degree-section span');
+
   //if location exists in the browser
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(position =>{
@@ -14,9 +16,24 @@ window.addEventListener('load', ()=> {
       long = position.coords.longitude;
       lat = position.coords.latitude;
       
+      // add condition if localhost, use proxy
       const proxy = 'https://cors-anywhere.herokuapp.com/';
-      const api = `${proxy}https://api.darksky.net/forecast/6641aefb61ccf2f202746e2db88500d3/${lat},${long}`;
-      
+      const api = `${proxy}https://api.darksky.net/forecast/6641aefb61ccf2f202746e2db88500d3/${lat},${long}?exclude=[hourly,minutely]`;
+      console.log(api)
+      const revapi =`https://us1.locationiq.com/v1/reverse.php?key=d3afc63e6da6d4&lat=${lat}&lon=${long}&format=json`
+      console.log(revapi)
+
+      fetch(revapi)
+        .then(response => {
+          return response.json();
+        })
+        .then(revdata =>{
+          console.log(revdata);
+          const { city, state } = revdata.address;
+          // set dom elements from rev api
+          locTimezone.textContent = `${city}, ${state}`
+        });
+
       fetch(api)
         .then(response =>{
           //convert to json
@@ -24,13 +41,14 @@ window.addEventListener('load', ()=> {
         })
         .then(data => {
           console.log(data);
-          const { temperature, summary, icon } = data.currently;
+          const { temperature, summary, icon, time, apparentTemperature } = data.currently;
           //Set DOM elements from the api
-          tempDegree.textContent = temperature;
+          tempDegree.textContent = Math.round(temperature);
           tempDescription.textContent = summary;
-          locTimezone.textContent = data.timezone
+          //locTimezone.textContent = data.timezone
+
           // formula for celcius 
-          let celcius = (temperature - 32) * (5 /9)
+          let celcius = (temperature - 32) * (5 / 9)
 
           //set icon
           setIcons(icon, document.querySelector('.icon'));
@@ -39,10 +57,10 @@ window.addEventListener('load', ()=> {
           degreeSection.addEventListener('click', () =>{
             if(degreeSpan.textContent === "F") {
               degreeSpan.textContent = "C";
-              degreeSection.textContent = Math.floor(celcius);
+              degreeSection.textContent = celcius.toFixed(1); //C to one decimal
             }else{
               degreeSpan.textContent = "F";
-              degreeSection.textContent = temperature;
+              degreeSection.textContent = Math.round(temperature);
             }
           })
         });
