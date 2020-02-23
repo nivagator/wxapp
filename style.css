@@ -17,8 +17,8 @@ body {
 
 .loc, 
 .temp {
-  height: 30vh;
-  width: 60%;
+  max-height: 30vh;
+  max-width: 80%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -36,7 +36,7 @@ body {
 }
 
 .degree-section span {
-  margin: 10px;
+  margin-left: 10px;
   font-size: 30px;
 }
 
@@ -45,9 +45,23 @@ body {
 }
 
 .feelslike span {
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .feels-degrees {
   margin-left: 5px;
+}
+
+.feelslike {
+  margin: 5px;
+  font-style: italic;
+  font-size: smaller;
+}
+
+.icon {
+  margin: 15px;
+}
+
+.temp-description {
+  font-size: x-large;
 }
