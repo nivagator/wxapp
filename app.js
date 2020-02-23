@@ -10,37 +10,25 @@ window.addEventListener('load', ()=> {
   const degreeSpan = document.querySelector('.degree-section span');
   const feelsDegrees = document.querySelector('.feels-degrees');
   const feelSpan = document.querySelector('.feelslike span')
-
+  const host = window.location.host
   //if location exists in the browser
   if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(position => {
-      // console.log(position); // show in browser console
+    navigator.geolocation.getCurrentPosition(position => { // console.log(position); // show in browser console
       long = position.coords.longitude;
       lat = position.coords.latitude;
       
-      // add condition if localhost, use proxy
+      // declare weather api 
       const proxy = 'https://cors-anywhere.herokuapp.com/';
-      const api = `${proxy}https://api.darksky.net/forecast/6641aefb61ccf2f202746e2db88500d3/${lat},${long}?exclude=[hourly,minutely]`;
+      let api = `https://api.darksky.net/forecast/6641aefb61ccf2f202746e2db88500d3/${lat},${long}?exclude=[hourly,minutely]`;
+      if(host.includes("localhost")){ // condition if localhost, use proxy
+        api = `${proxy}` + `${api}`
+      };
       // console.log(api)
-      const revapi =`https://us1.locationiq.com/v1/reverse.php?key=d3afc63e6da6d4&lat=${lat}&lon=${long}&format=json`
-      // console.log(revapi)
-
-      //location data
-      fetch(revapi)
-        .then(response => {
-          return response.json();
-        })
-        .then(revdata => {
-          // console.log(revdata);
-          const { city, state } = revdata.address;
-          // set dom elements from rev api
-          locTimezone.textContent = `${city}, ${state}`
-        });
       
       // weather data   
       fetch(api)
         .then(response => {
-          //convert to json
+          // convert to json
           return response.json();
         })
         .then(data => {
@@ -60,9 +48,25 @@ window.addEventListener('load', ()=> {
           degreeSection.addEventListener('click', function(){
             changeUnits(temperature,apparentTemperature);
           });
-          })
+        })
+
+      // declare reverse geocoding api
+      const revapi =`https://us1.locationiq.com/v1/reverse.php?key=d3afc63e6da6d4&lat=${lat}&lon=${long}&format=json`
+      // console.log(revapi)
+      
+      // location data
+      fetch(revapi)
+        .then(response => {
+          return response.json();
+        })
+        .then(revdata => {
+          // console.log(revdata);
+          const { city, state } = revdata.address;
+          // set dom elements from rev api
+          locTimezone.textContent = `${city}, ${state}`
         });
-    };
+    });
+  };
   //}else{ // or default it to a location
   //  h1.textContent = 'app requires location services.'
   
