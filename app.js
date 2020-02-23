@@ -25,6 +25,7 @@ window.addEventListener('load', ()=> {
       const revapi =`https://us1.locationiq.com/v1/reverse.php?key=d3afc63e6da6d4&lat=${lat}&lon=${long}&format=json`
       console.log(revapi)
 
+      //location data
       fetch(revapi)
         .then(response => {
           return response.json();
@@ -35,7 +36,8 @@ window.addEventListener('load', ()=> {
           // set dom elements from rev api
           locTimezone.textContent = `${city}, ${state}`
         });
-
+      
+      // weather data   
       fetch(api)
         .then(response =>{
           //convert to json
@@ -44,6 +46,7 @@ window.addEventListener('load', ()=> {
         .then(data => {
           console.log(data);
           const { temperature, summary, icon, time, apparentTemperature } = data.currently;
+
           //Set DOM elements from the api
           tempDegree.textContent = Math.round(temperature);
           tempDescription.textContent = summary;
@@ -53,6 +56,7 @@ window.addEventListener('load', ()=> {
           // formula for celcius 
           let celcius = (temperature - 32) * (5 / 9);
           let feelsCelcius = (apparentTemperature -32) * (5 / 9);
+
           //set icon
           setIcons(icon, document.querySelector('.icon'));
 
@@ -60,14 +64,14 @@ window.addEventListener('load', ()=> {
           degreeSection.addEventListener('click', () =>{
             if(degreeSpan.textContent === "F") {
               degreeSpan.textContent = "C";
-              feelSpan.textContent = "C";
               degreeSection.textContent = celcius.toFixed(1); //C to one decimal
-              feelsDegrees.textContent = feelsCelcius.toFixed(1);
+              feelSpan.textContent = "C";
+              feelsDegrees.textContent = feelsCelcius.toFixed(1); //C to one decimal
             }else{
               degreeSpan.textContent = "F";
+              degreeSection.textContent = Math.round(temperature); //F to no decimals
               feelSpan.textContent = "F";
-              degreeSection.textContent = Math.round(temperature);
-              feelsDegrees.textContent = Math.round(apparentTemperature);
+              feelsDegrees.textContent = Math.round(apparentTemperature); //F to no decimals
             }
           })
         });
