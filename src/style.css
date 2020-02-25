@@ -46,6 +46,7 @@ body {
 
 .feelslike span {
   margin-left: 5px;
+  font-size: smaller;
 }
 
 .feels-degrees {
