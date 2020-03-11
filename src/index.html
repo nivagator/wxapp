@@ -13,29 +13,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Weather</title>
+<!-- twitter cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gavin_greer">
+    <meta name="twitter:title" content="wx app">
+    <meta name="twitter:description" content="simple javascript weather app using the darksky api">
+    <meta name="twitter:creator" content="@gavin_greer">
+    <meta name="twitter:image" content="https://gavingreer.com/wx/assets/android-chrome-512x512.png">
+
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="manifest" href="assets/site.webmanifest">
   </head>
   <body>
-
-    <div class="loc">
-      <h1 class="loc-timezone">-</h1>
-      <canvas class="icon" width="128" height="128"></canvas>
-    </div>
-
-    <div class="temp">
-      <div class="degree-section">
-        <h2 class="temp-degree">-</h2>
-        <span>F</span>
+  
+      <div class="loc">
+        <h1 class="loc-timezone">-</h1>
+        <canvas class="icon" width="128" height="128"></canvas>
       </div>
-      <div class="temp-description">-</div>
-      <div class="feelslike">Feels like 
-        <div class="feels-degrees">-</div>
-        <span>F</span>
+
+      <div class="temp">
+        <div class="degree-section">
+          <h2 class="temp-degree">-</h2>
+          <span>F</span>
+        </div>
+        <div class="temp-description">-</div>
+        <div class="feelslike">Feels like 
+          <div class="feels-degrees">-</div>
+          <span>F</span>
+        </div>
       </div>
-    </div>
 
     <script src="skycons.js"></script>
     <script src="app.js"></script>
