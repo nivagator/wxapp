@@ -11,64 +11,52 @@ const degreeSpan = document.querySelector('.degree-section span');
 const feelsDegrees = document.querySelector('.feels-degrees');
 const feelSpan = document.querySelector('.feelslike span')
 
-//get location long and lat
+// on load, populate default wx/location 
 window.addEventListener('load', ()=> {
   api = `https://gavingreer.com/api/forecast/${lat},${long}`
-  // console.log(api)
   revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
-  // console.log(revapi)
   getWeather(api)
   getLoc(revapi)
   locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
 });
 
-// change temp to C/F event listener
-document.querySelector('.temp-degree').addEventListener('click', function(){
-  changeUnits(temperature,apparentTemperature);
-});
-// use my location event listener
-document.querySelector('#find-me').addEventListener('click', geoFindMe);
-// get city listener
-document.querySelector('#get-city').addEventListener('click', getCity);
-
 // function to switch between F and C
-function changeUnits(temp,feelstemp){
+function changeUnits(){
+  let tempval = tempDegree.textContent
+  let feelstempval = feelsDegrees.textContent
   if(degreeSpan.textContent === "F") {
-    let celcius = (temp - 32) * (5 / 9);
-    let feelsCelcius = (feelstemp -32) * (5 / 9);
+    let celcius = (tempval - 32) * (5 / 9);
+    let feelsCelcius = (feelstempval -32) * (5 / 9);
     degreeSpan.textContent = "C";
     degreeSection.textContent = celcius.toFixed(1); //C to one decimal
     feelSpan.textContent = "C";
     feelsDegrees.textContent = feelsCelcius.toFixed(1); //C to one decimal
   }else{
+    ftemp = (tempval * (9/5)) + 32
+    ffeelslike = (feelstempval * (9/5)) + 32
     degreeSpan.textContent = "F";
-    degreeSection.textContent = Math.round(temp); //F to no decimals
+    degreeSection.textContent = Math.round(ftemp); //F to no decimals
     feelSpan.textContent = "F";
-    feelsDegrees.textContent = Math.round(feelstemp); //F to no decimals
+    feelsDegrees.textContent = Math.round(ffeelslike); //F to no decimals
   }
 }
 
 // function to call user location from the browser
 function geoFindMe() {
-
   const status = document.querySelector('#status');
   const button = document.querySelector('#find-me');
-  // const randomButton = document.querySelector('#random-loc');
   
   function success(position) {
-    const latitude  = position.coords.latitude.toFixed(4);
-    const longitude = position.coords.longitude.toFixed(4);
-    api = `https://gavingreer.com/api/forecast/${latitude},${longitude}`
-    // console.log(api)
-    revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${latitude}&lon=${longitude}&format=json`
-    // console.log(revapi)
+    lat  = position.coords.latitude.toFixed(4);
+    long = position.coords.longitude.toFixed(4);
+    api = `https://gavingreer.com/api/forecast/${lat},${long}`;
+    revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`;
     getWeather(api)
     getLoc(revapi)
     status.textContent = '';
     button.textContent = "Use my location";
     button.classList.add('hide');
-    // randomButton.classList.remove('hide');
-    locLink.href = `https://www.openstreetmap.org/#map=12/${latitude}/${longitude}`;
+    locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
   }
 
   function error() {
@@ -95,30 +83,26 @@ function setIcons(icon, iconID){
 
 //function to set weather dom elements
 function setWxDOM(temperature, summary, apparentTemperature) {
-  //Set DOM elements from the api
   tempDegree.textContent = Math.round(temperature);
   tempDescription.textContent = summary;
   feelsDegrees.textContent = Math.round(apparentTemperature)
+  degreeSpan.textContent = "F";
+  feelSpan.textContent = "F";
 }
 
 // function to call weather api
 function getWeather(api){
-    // weather data   
   fetch(api)
   .then(response => {
-    // convert to json
     return response.json();
   })
   .then(data => {
     // console.log(data);
-    const { temperature, summary, icon, time, apparentTemperature } = data.currently;
-    
+    const { temperature, summary, icon, apparentTemperature } = data.currently;
     // set wx elements
     setWxDOM(temperature, summary, apparentTemperature)
-
     // set icon
     setIcons(icon, document.querySelector('.icon'));
-    // console.log('endWx')
   })
 }
 
@@ -130,11 +114,11 @@ function getLoc(revapi) {
  })
  .then(revdata => {
    const { city, state } = revdata.address;
-   // set dom elements from rev api
    locTimezone.textContent = `${city}, ${state}`
  });
 }
 
+// get random city from file
 function getCity() {
   fetch('cities.json')
     .then(
@@ -143,14 +127,14 @@ function getCity() {
           console.log('Looks like there was a problem. Status Code: ' + response.status);
         }
         response.json().then(function(data) {
-          let rand = getRandomInt(data.length)
-          lat = data[rand].latitude
-          long = data[rand].longitude
-          console.log('#' + rand + ' of ' + data.length + ' - ' + data[rand].city + ' - ' + lat + ', ' + long)
-          api = `https://gavingreer.com/api/forecast/${lat},${long}`
-          revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
-          getWeather(api)
-          getLoc(revapi)
+          let rand = getRandomInt(data.length);
+          lat = data[rand].latitude;
+          long = data[rand].longitude;
+          console.log('#' + rand + ' of ' + data.length + ' - ' + data[rand].city + ' - ' + lat + ', ' + long);
+          api = `https://gavingreer.com/api/forecast/${lat},${long}`;
+          revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`;
+          getWeather(api);
+          getLoc(revapi);
           locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
           document.querySelector('#find-me').classList.remove('hide');
         });
@@ -164,3 +148,10 @@ function getCity() {
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
+
+// change temp to C/F event listener
+document.querySelector('.temp-degree').addEventListener('click', changeUnits);
+// use my location event listener
+document.querySelector('#find-me').addEventListener('click', geoFindMe);
+// get city listener
+document.querySelector('#get-city').addEventListener('click', getCity);
