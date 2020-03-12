@@ -1,3 +1,4 @@
+// set variables
 let lat = 38.9071923;
 let long = -77.0368707;
 let api;
@@ -88,7 +89,7 @@ function setWxDOM(temperature, summary, apparentTemperature) {
 // function to call weather api
 function getWeather(lat, long){
   api = `https://gavingreer.com/api/forecast/${lat},${long}`;
-  console.log(api)
+  // console.log(api)
   fetch(api)
   .then(response => {
     return response.json();
@@ -106,7 +107,7 @@ function getWeather(lat, long){
 // reverse geolocation api call
 function getLoc(lat,long) {
   revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
-  console.log(revapi)
+  // console.log(revapi)
   fetch(revapi)
     .then(response => {
       return response.json();
@@ -133,6 +134,7 @@ function getCity() {
           console.log('#' + rand + ' of ' + data.length + ' - ' + data[rand].city + ' - ' + lat + ', ' + long);
           getWeather(lat,long);
           getLoc(lat,long);
+          // since we've used a random city, allow the use my location button
           document.querySelector('#find-me').classList.remove('hide');
         });
       }
