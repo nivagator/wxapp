@@ -11,11 +11,11 @@ Uses the [DarkSky API](https://darksky.net/dev) for weather data and [Skycons](h
     - ~~add apparent temp~~
   - ~~change degree number formatting to no decimals for F and one for C~~
   - ~~remove dependence on CORS-Anywhere proxy~~
-  - clean javascript code, separate out specific functions from fetch(api)
-    - review the [Mozilla developer site for geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) for JS function ideas.
+  - ~~clean javascript code, separate out specific functions from fetch(api)~~
+    - ~~review the [Mozilla developer site for geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) for JS function ideas.~~
     - ~~split out function for changing units~~
   - Browser Location:
-    - add default location 
-    - add button to get user's location (maybe) - or simply try to get location
-      - if browser location is blocked, add text explaining the limitation.
-  - publish to gavingreer.com/wx
+    - ~~add default location~~
+    - ~~add button to get user's location (maybe) - or simply try to get location~~
+      - ~~if browser location is blocked, add text explaining the limitation.~~
+  - ~~publish to gavingreer.com/wx~~
