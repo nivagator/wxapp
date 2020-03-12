@@ -31,14 +31,11 @@ window.addEventListener('load', ()=> {
         .then(data => {
           // console.log(data);
           const { temperature, summary, icon, time, apparentTemperature } = data.currently;
+          
+          // set wx elements
+          setWxDOM(temperature, summary, apparentTemperature)
 
-          //Set DOM elements from the api
-          tempDegree.textContent = Math.round(temperature);
-          tempDescription.textContent = summary;
-          feelsDegrees.textContent = Math.round(apparentTemperature)
-          //locTimezone.textContent = data.timezone
-
-          //set icon
+          // set icon
           setIcons(icon, document.querySelector('.icon'));
 
           // change temp to C/F
@@ -91,5 +88,16 @@ window.addEventListener('load', ()=> {
       feelSpan.textContent = "F";
       feelsDegrees.textContent = Math.round(feelstemp); //F to no decimals
     }
+  }
+  //function to set weather dom elements
+  function setWxDOM(temperature, summary, apparentTemperature) {
+    //Set DOM elements from the api
+    tempDegree.textContent = Math.round(temperature);
+    tempDescription.textContent = summary;
+    feelsDegrees.textContent = Math.round(apparentTemperature)
+  }
+  // function to call weather api
+  function getWeather(api){
+    
   }
 });
