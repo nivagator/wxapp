@@ -1,8 +1,10 @@
 //get location long and lat
 window.addEventListener('load', ()=> {
   // const vs let?
-  let long;
-  let lat;
+  let lat = 32.7474;
+  let long = -97.0840;
+  let api;
+  let revapi;
   let tempDescription = document.querySelector('.temp-description');
   let tempDegree = document.querySelector('.temp-degree');
   let locTimezone = document.querySelector('.loc-timezone');
@@ -13,54 +15,26 @@ window.addEventListener('load', ()=> {
   const host = window.location.host
   
   //if location exists in the browser
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(position => { // console.log(position); // show in browser console
-      long = position.coords.longitude;
-      lat = position.coords.latitude;
-      
-      // declare weather api 
-      let api = `https://gavingreer.com/api/forecast/${lat},${long}` 
-      console.log(api)
-      
-      // weather data   
-      fetch(api)
-        .then(response => {
-          // convert to json
-          return response.json();
-        })
-        .then(data => {
-          // console.log(data);
-          const { temperature, summary, icon, time, apparentTemperature } = data.currently;
-          
-          // set wx elements
-          setWxDOM(temperature, summary, apparentTemperature)
+  // if(!navigator.geolocation){
+    
+  // }else{
+  //   navigator.geolocation.getCurrentPosition(position => { // console.log(position); // show in browser console
+  //     long = position.coords.longitude;
+  //     lat = position.coords.latitude;
+  //   });
+  // };
 
-          // set icon
-          setIcons(icon, document.querySelector('.icon'));
+  api = `https://gavingreer.com/api/forecast/${lat},${long}`
+  console.log(api)
+  revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
+  console.log(revapi)
 
-          // change temp to C/F
-          degreeSection.addEventListener('click', function(){
-            changeUnits(temperature,apparentTemperature);
-          });
-        })
+  getWeather(api)
 
-      // declare reverse geocoding api
-      const revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
-      console.log(revapi)
-      
-      // location data
-      fetch(revapi)
-        .then(response => {
-          return response.json();
-        })
-        .then(revdata => {
-          // console.log(revdata);
-          const { city, state } = revdata.address;
-          // set dom elements from rev api
-          locTimezone.textContent = `${city}, ${state}`
-        });
-    });
-  };
+  getLoc(revapi)
+ 
+  //   });
+  // };
   //}else{ // or default it to a location
   //  h1.textContent = 'app requires location services.'
   
@@ -98,6 +72,42 @@ window.addEventListener('load', ()=> {
   }
   // function to call weather api
   function getWeather(api){
-    
+      // weather data   
+    fetch(api)
+    .then(response => {
+      // convert to json
+      return response.json();
+    })
+    .then(data => {
+      // console.log(data);
+      const { temperature, summary, icon, time, apparentTemperature } = data.currently;
+      
+      // set wx elements
+      setWxDOM(temperature, summary, apparentTemperature)
+
+      // set icon
+      setIcons(icon, document.querySelector('.icon'));
+
+      // change temp to C/F
+      degreeSection.addEventListener('click', function(){
+        changeUnits(temperature,apparentTemperature);
+      });
+      console.log('endWx')
+    })
+  }
+
+  function getLoc(revapi) {
+     // location data
+    fetch(revapi)
+    .then(response => {
+      return response.json();
+    })
+    .then(revdata => {
+      // console.log(revdata);
+      const { city, state } = revdata.address;
+      // set dom elements from rev api
+      locTimezone.textContent = `${city}, ${state}`
+      console.log('endLoc')
+    });
   }
 });
