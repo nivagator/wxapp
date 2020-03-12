@@ -13,11 +13,8 @@ const feelSpan = document.querySelector('.feelslike span')
 
 // on load, populate default wx/location 
 window.addEventListener('load', ()=> {
-  api = `https://gavingreer.com/api/forecast/${lat},${long}`
-  revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
-  getWeather(api)
-  getLoc(revapi)
-  locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
+  getWeather(lat,long)
+  getLoc(lat,long)
 });
 
 // function to switch between F and C
@@ -49,14 +46,12 @@ function geoFindMe() {
   function success(position) {
     lat  = position.coords.latitude.toFixed(4);
     long = position.coords.longitude.toFixed(4);
-    api = `https://gavingreer.com/api/forecast/${lat},${long}`;
-    revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`;
-    getWeather(api)
-    getLoc(revapi)
+    
+    getWeather(lat, long)
+    getLoc(lat,long)
     status.textContent = '';
     button.textContent = "Use my location";
     button.classList.add('hide');
-    locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
   }
 
   function error() {
@@ -91,7 +86,9 @@ function setWxDOM(temperature, summary, apparentTemperature) {
 }
 
 // function to call weather api
-function getWeather(api){
+function getWeather(lat, long){
+  api = `https://gavingreer.com/api/forecast/${lat},${long}`;
+  console.log(api)
   fetch(api)
   .then(response => {
     return response.json();
@@ -107,15 +104,18 @@ function getWeather(api){
 }
 
 // reverse geolocation api call
-function getLoc(revapi) {
- fetch(revapi)
- .then(response => {
-   return response.json();
- })
- .then(revdata => {
-   const { city, state } = revdata.address;
-   locTimezone.textContent = `${city}, ${state}`
- });
+function getLoc(lat,long) {
+  revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`
+  console.log(revapi)
+  fetch(revapi)
+    .then(response => {
+      return response.json();
+    })
+    .then(revdata => {
+      const { city, state } = revdata.address;
+      locTimezone.textContent = `${city}, ${state}`;
+      locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
+    });
 }
 
 // get random city from file
@@ -131,11 +131,8 @@ function getCity() {
           lat = data[rand].latitude;
           long = data[rand].longitude;
           console.log('#' + rand + ' of ' + data.length + ' - ' + data[rand].city + ' - ' + lat + ', ' + long);
-          api = `https://gavingreer.com/api/forecast/${lat},${long}`;
-          revapi =`https://us1.locationiq.com/v1/reverse.php?key=pk.623808e23f86a40926f8ecefb0b48b52&lat=${lat}&lon=${long}&format=json`;
-          getWeather(api);
-          getLoc(revapi);
-          locLink.href = `https://www.openstreetmap.org/#map=12/${lat}/${long}`;
+          getWeather(lat,long);
+          getLoc(lat,long);
           document.querySelector('#find-me').classList.remove('hide');
         });
       }
