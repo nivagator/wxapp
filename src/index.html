@@ -1,56 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157023360-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-157023360-1');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Weather</title>
-<!-- twitter cards -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@gavin_greer">
-    <meta name="twitter:title" content="wx app">
-    <meta name="twitter:description" content="simple javascript weather app using the darksky api">
-    <meta name="twitter:creator" content="@gavin_greer">
-    <meta name="twitter:image" content="https://gavingreer.com/wx/assets/android-chrome-512x512.png">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-    <link rel="manifest" href="assets/site.webmanifest">
-  </head>
-  <body>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157023360-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-157023360-1');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>Weather</title>
+  <!-- twitter cards -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@gavin_greer">
+  <meta name="twitter:title" content="wx app">
+  <meta name="twitter:description" content="simple javascript weather app using the darksky api">
+  <meta name="twitter:creator" content="@gavin_greer">
+  <meta name="twitter:image" content="https://gavingreer.com/wx/assets/android-chrome-512x512.png">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <script defer src="./assets/js/fontawesome.min.js"></script>
+  <script defer src="./assets/js/solid.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <ul class="navbar-nav">
+        <li class="nav-button" id="find-me">
+          <i title="Find me" class="fas fa-2x fa-map-marker-alt fa-fw"></i>
+        </li>
+        <li class="nav-button" id="get-city">
+          <i title="Random city" class="fas fa-2x fa-random fa-fw"></i>
+        </li>
+      </ul>
+    </nav>
+    <div class="loc">
+      <a class="loc-link" href="">
+        <h1 class="loc-timezone">-</h1>
+      </a>
+      <canvas class="icon" width="128" height="128"></canvas>
+    </div>
+
+    <div class="temp">
+      <div class="degree-section">
+        <h2 class="temp-degree">-</h2>
+        <span>F</span>
+      </div>
+      <div class="temp-description">-</div>
+      <div class="feelslike">Feels like
+        <div class="feels-degrees">-</div>
+        <span>F</span>
+      </div>
+    </div>
+    <p id="status"></p>
+  </div>
   
-      <div class="loc">
-        <a class="loc-link" href=""><h1 class="loc-timezone">-</h1></a>
-        <canvas class="icon" width="128" height="128"></canvas>
-      </div>
-
-      <div class="temp">
-        <div class="degree-section">
-          <h2 class="temp-degree">-</h2>
-          <span>F</span>
-        </div>
-        <div class="temp-description">-</div>
-        <div class="feelslike">Feels like 
-          <div class="feels-degrees">-</div>
-          <span>F</span>
-        </div>
-      </div>
-
-      <div class="get-loc">
-        <button class="find-button" id="find-me">Use my location</button>
-        <button class="find-button" id="get-city">Use random location</button>
-        <br/>
-        <p id = "status"></p>
-      </div>
-    <script src="skycons.js"></script>
-    <script src="app.js"></script>
-  </body>
+  <script defer src="skycons.js"></script>
+  <script defer src="app.js"></script>
+</body>

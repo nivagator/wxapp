@@ -41,40 +41,33 @@ function changeUnits(){
 // function to call user location from the browser
 function geoFindMe() {
   const status = document.querySelector('#status');
-  const button = document.querySelector('#find-me');
-  
   function success(position) {
     lat  = position.coords.latitude.toFixed(4);
     long = position.coords.longitude.toFixed(4);
-    
     getWeather(lat, long)
     getLoc(lat,long)
     status.textContent = '';
-    button.textContent = "Use my location";
-    button.classList.add('hide');
   }
 
   function error() {
-    button.textContent = "Use my location"
     status.textContent = 'Unable to retrieve your location';
     getWeather(lat,long);
     getLoc(lat,long);
   }
 
   if (!navigator.geolocation) {
-    button.textContent = "Use my location"
     status.textContent = 'Geolocation is not supported by your browser';
     getWeather(lat,long);
     getLoc(lat,long);
   } else {
-    button.textContent = 'Locating…'
+    status.textContent = 'Locating...'
     navigator.geolocation.getCurrentPosition(success, error);
   }
 }
 
 // function set icons
 function setIcons(icon, iconID){
-  const skycons = new Skycons({color: "white"});
+  const skycons = new Skycons({color: "rgb(61, 61, 61)"});
   const currentIcon = icon.replace(/-/g, "_").toUpperCase();
   skycons.play();
   return skycons.set(iconID, Skycons[currentIcon])
@@ -124,6 +117,7 @@ function getLoc(lat,long) {
 
 // get random city from file
 function getCity() {
+  document.querySelector('#status').textContent=''
   fetch('cities.json')
     .then(
       function(response) {
@@ -137,8 +131,6 @@ function getCity() {
           console.log('#' + rand + ' of ' + data.length + ' - ' + data[rand].city + ' - ' + lat + ', ' + long);
           getWeather(lat,long);
           getLoc(lat,long);
-          // since we've used a random city, allow the use my location button
-          document.querySelector('#find-me').classList.remove('hide');
         });
       }
     )
