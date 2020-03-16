@@ -14,8 +14,7 @@ const feelSpan = document.querySelector('.feelslike span')
 
 // on load, populate default wx/location 
 window.addEventListener('load', ()=> {
-  getWeather(lat,long)
-  getLoc(lat,long)
+  geoFindMe();
 });
 
 // function to switch between F and C
@@ -58,11 +57,15 @@ function geoFindMe() {
   function error() {
     button.textContent = "Use my location"
     status.textContent = 'Unable to retrieve your location';
+    getWeather(lat,long);
+    getLoc(lat,long);
   }
 
   if (!navigator.geolocation) {
     button.textContent = "Use my location"
     status.textContent = 'Geolocation is not supported by your browser';
+    getWeather(lat,long);
+    getLoc(lat,long);
   } else {
     button.textContent = 'Locating…'
     navigator.geolocation.getCurrentPosition(success, error);
