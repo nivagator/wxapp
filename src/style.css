@@ -129,8 +129,6 @@ a {
 .temp {
   padding-bottom: 10px;
   padding-top: 5px;
-  border-bottom-left-radius: 1em;
-  border-bottom-right-radius: 1em;
 }
 
 .navbar-nav {
@@ -148,6 +146,42 @@ a {
   position: absolute;
   left: -42px;
   top: 40px;
+}
+
+.forecast {
+  font-size: .9rem;
+  background-color: var(--button-bg-color);
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  padding: 10px 5px;
+  color: var(--button-color)
+}
+
+.days {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.weekday {
+  font-weight: bold;
+}
+
+.date {
+  margin-bottom: 4px;
+}
+
+.hi {
+  margin-top: 4px;
 }
 
 @media only screen and (max-width: 600px) {
