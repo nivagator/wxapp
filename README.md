@@ -4,6 +4,10 @@ Simple browser based weather app. Initially created by following [this Dev Ed gu
 
 Uses the [DarkSky API](https://darksky.net/dev) for weather data and [Skycons](https://darkskyapp.github.io/skycons/) for canvas icons. For localhost development, the [CORS-anywhere Heroku app](https://cors-anywhere.herokuapp.com/) is used. 
 
+Server is running using pm2.
+
+`$ pm2 list` to show running apps
+
 ### Project todo
   - ~~update timezone to display city/state~~
   - review darksky data and integrate more features 
